@@ -3,7 +3,7 @@ import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js"
 
 const transport = new StdioClientTransport({
   command: "npx",
-  args: ["tsx", "src/server.ts"],
+  args: ["tsx", "examples/pokemon-server.ts"],
 });
 
 const client = new Client({ name: "test-client", version: "1.0.0" });

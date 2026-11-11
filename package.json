@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "server": "tsx src/server.ts",
-    "client": "tsx src/client-test.ts",
-    "inspect": "npx @modelcontextprotocol/inspector tsx src/server.ts"
+    "pokemon:server": "tsx examples/pokemon-server.ts",
+    "pokemon:client": "tsx examples/pokemon-client-test.ts",
+    "pokemon:inspect": "npx @modelcontextprotocol/inspector tsx examples/pokemon-server.ts"
   },
   "repository": {
     "type": "git",
