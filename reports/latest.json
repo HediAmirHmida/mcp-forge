@@ -1,147 +1,186 @@
 {
-  "server": "generated/petstore/server.ts",
-  "total": 19,
-  "passed": 19,
+  "server": "generated/hubapi/server.ts",
+  "total": 16,
+  "passed": 16,
   "results": [
     {
-      "tool": "addPet",
+      "tool": "post-_automation_v4_actions_callbacks_complete_completeBatch",
       "args": {
         "body": {
-          "name": "example",
-          "photoUrls": [
-            "example"
+          "inputs": [
+            {
+              "callbackId": "example",
+              "outputFields": {}
+            }
           ]
         }
       },
       "ok": true
     },
     {
-      "tool": "updatePet",
+      "tool": "post-_automation_v4_actions_callbacks__callbackId__complete_complete",
       "args": {
+        "callbackId": "example",
         "body": {
-          "name": "example",
-          "photoUrls": [
-            "example"
-          ]
+          "outputFields": {}
         }
       },
       "ok": true
     },
     {
-      "tool": "findPetsByStatus",
+      "tool": "get-_automation_v4_actions__appId__getPage",
       "args": {
-        "status": "available"
+        "appId": 1
       },
       "ok": true
     },
     {
-      "tool": "findPetsByTags",
+      "tool": "post-_automation_v4_actions__appId__create",
       "args": {
-        "tags": [
-          "example"
-        ]
+        "appId": 1,
+        "body": {
+          "actionUrl": "example",
+          "functions": [
+            {
+              "functionSource": "example",
+              "functionType": "PRE_ACTION_EXECUTION"
+            }
+          ],
+          "inputFields": [
+            {
+              "isRequired": true,
+              "typeDefinition": {
+                "name": "example",
+                "options": [
+                  {
+                    "description": "example",
+                    "displayOrder": 1,
+                    "doubleData": 1,
+                    "hidden": true,
+                    "label": "example",
+                    "readOnly": true,
+                    "value": "example"
+                  }
+                ],
+                "type": "string"
+              }
+            }
+          ],
+          "labels": {},
+          "objectTypes": [
+            "example"
+          ],
+          "published": true
+        }
       },
       "ok": true
     },
     {
-      "tool": "getPetById",
+      "tool": "get-_automation_v4_actions__appId___definitionId__getById",
       "args": {
-        "petId": 1
+        "definitionId": "example",
+        "appId": 1
       },
       "ok": true
     },
     {
-      "tool": "updatePetWithForm",
+      "tool": "patch-_automation_v4_actions__appId___definitionId__update",
       "args": {
-        "petId": 1
-      },
-      "ok": true
-    },
-    {
-      "tool": "deletePet",
-      "args": {
-        "petId": 1
-      },
-      "ok": true
-    },
-    {
-      "tool": "uploadFile",
-      "args": {
-        "petId": 1
-      },
-      "ok": true
-    },
-    {
-      "tool": "getInventory",
-      "args": {},
-      "ok": true
-    },
-    {
-      "tool": "placeOrder",
-      "args": {
+        "definitionId": "example",
+        "appId": 1,
         "body": {}
       },
       "ok": true
     },
     {
-      "tool": "getOrderById",
+      "tool": "delete-_automation_v4_actions__appId___definitionId__archive",
       "args": {
-        "orderId": 1
+        "definitionId": "example",
+        "appId": 1
       },
       "ok": true
     },
     {
-      "tool": "deleteOrder",
+      "tool": "get-_automation_v4_actions__appId___definitionId__functions_getPage",
       "args": {
-        "orderId": 1
+        "definitionId": "example",
+        "appId": 1
       },
       "ok": true
     },
     {
-      "tool": "createUser",
+      "tool": "get-_automation_v4_actions__appId___definitionId__functions__functionType__getByFunctionType",
       "args": {
-        "body": {}
+        "definitionId": "example",
+        "functionType": "PRE_ACTION_EXECUTION",
+        "appId": 1
       },
       "ok": true
     },
     {
-      "tool": "createUsersWithListInput",
+      "tool": "put-_automation_v4_actions__appId___definitionId__functions__functionType__createOrReplaceByFunctionType",
       "args": {
-        "body": [
-          {}
-        ]
+        "definitionId": "example",
+        "functionType": "PRE_ACTION_EXECUTION",
+        "appId": 1,
+        "body": "example"
       },
       "ok": true
     },
     {
-      "tool": "loginUser",
-      "args": {},
-      "ok": true
-    },
-    {
-      "tool": "logoutUser",
-      "args": {},
-      "ok": true
-    },
-    {
-      "tool": "getUserByName",
+      "tool": "delete-_automation_v4_actions__appId___definitionId__functions__functionType__archiveByFunctionType",
       "args": {
-        "username": "example"
+        "definitionId": "example",
+        "functionType": "PRE_ACTION_EXECUTION",
+        "appId": 1
       },
       "ok": true
     },
     {
-      "tool": "updateUser",
+      "tool": "get-_automation_v4_actions__appId___definitionId__functions__functionType___functionId__getById",
       "args": {
-        "username": "example",
-        "body": {}
+        "definitionId": "example",
+        "functionType": "PRE_ACTION_EXECUTION",
+        "functionId": "example",
+        "appId": 1
       },
       "ok": true
     },
     {
-      "tool": "deleteUser",
+      "tool": "put-_automation_v4_actions__appId___definitionId__functions__functionType___functionId__createOrReplace",
       "args": {
-        "username": "example"
+        "definitionId": "example",
+        "functionType": "PRE_ACTION_EXECUTION",
+        "functionId": "example",
+        "appId": 1,
+        "body": "example"
+      },
+      "ok": true
+    },
+    {
+      "tool": "delete-_automation_v4_actions__appId___definitionId__functions__functionType___functionId__archive",
+      "args": {
+        "definitionId": "example",
+        "functionType": "PRE_ACTION_EXECUTION",
+        "functionId": "example",
+        "appId": 1
+      },
+      "ok": true
+    },
+    {
+      "tool": "get-_automation_v4_actions__appId___definitionId__revisions_getPage",
+      "args": {
+        "definitionId": "example",
+        "appId": 1
+      },
+      "ok": true
+    },
+    {
+      "tool": "get-_automation_v4_actions__appId___definitionId__revisions__revisionId__getById",
+      "args": {
+        "definitionId": "example",
+        "revisionId": "example",
+        "appId": 1
       },
       "ok": true
     }

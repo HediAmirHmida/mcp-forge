@@ -1,9 +1,12 @@
 import type { Endpoint, ParsedSpec } from "./parser.js";
 
 // Converts a JSON Schema object into the *source code* of a Zod schema.
-function toZod(schema: any, depth = 0): string {
-  // depth limit protects against circular schemas
-  if (!schema || depth > 4) return "z.any()";
+// `seen` holds the schemas we are currently inside, so only a real cycle
+// (not mere depth) makes us give up on a branch.
+function toZod(schema: any, seen: Set<any> = new Set()): string {
+  if (!schema || typeof schema !== "object") return "z.any()";
+  if (seen.has(schema) || seen.size > 12) return "z.any()";
+  const path = new Set(seen).add(schema);
 
   if (Array.isArray(schema.enum)) {
     const allStrings = schema.enum.every((v: any) => typeof v === "string");
@@ -22,61 +25,83 @@ function toZod(schema: any, depth = 0): string {
     case "boolean":
       return "z.boolean()";
     case "array":
-      return `z.array(${toZod(schema.items, depth + 1)})`;
+      return `z.array(${toZod(schema.items, path)})`;
     case "object": {
+      const props = schema.properties ?? {};
+      // an object with no fixed properties but additionalProperties is a map
+      if (Object.keys(props).length === 0 && schema.additionalProperties) {
+        const inner =
+          schema.additionalProperties === true
+            ? "z.any()"
+            : toZod(schema.additionalProperties, path);
+        return `z.record(z.string(), ${inner})`;
+      }
       const required = new Set<string>(schema.required ?? []);
-      const fields = Object.entries<any>(schema.properties ?? {}).map(
-        ([key, value]) => {
-          let code = toZod(value, depth + 1);
-          if (!required.has(key)) code += ".optional()";
-          return `${JSON.stringify(key)}: ${code}`;
-        }
-      );
+      const fields = Object.entries<any>(props).map(([key, value]) => {
+        let code = toZod(value, path);
+        if (!required.has(key)) code += ".optional()";
+        return `${JSON.stringify(key)}: ${code}`;
+      });
       return `z.object({ ${fields.join(", ")} })`;
     }
     default:
       return "z.any()";
   }
 }
+
 function toolName(e: Endpoint): string {
-    return e.operationId.replace(/[^a-zA-Z0-9_-]/g, "_");
+  return e.operationId.replace(/[^a-zA-Z0-9_-]/g, "_");
+}
+
+function bodyZod(e: Endpoint): string {
+  const ct = e.requestBodyContentType ?? "";
+  if (ct.includes("json") || ct === "*/*") return toZod(e.requestBodySchema);
+  // text/plain and similar: usually a raw string
+  return e.requestBodySchema?.type ? toZod(e.requestBodySchema) : "z.string()";
+}
+
+function generateTool(e: Endpoint): string {
+  const fields: string[] = [];
+
+  for (const p of e.parameters) {
+    let code = toZod(p.schema);
+    if (p.description) code += `.describe(${JSON.stringify(p.description)})`;
+    if (!p.required) code += ".optional()";
+    fields.push(`${JSON.stringify(p.name)}: ${code}`);
   }
-  
-  function generateTool(e: Endpoint): string {
-    const fields: string[] = [];
-  
-    for (const p of e.parameters) {
-      let code = toZod(p.schema);
-      if (p.description) code += `.describe(${JSON.stringify(p.description)})`;
-      if (!p.required) code += ".optional()";
-      fields.push(`${JSON.stringify(p.name)}: ${code}`);
-    }
-    if (e.requestBodySchema) {
-      fields.push(`"body": ${toZod(e.requestBodySchema)}`);
-    }
-  
-    const route = {
-      method: e.method.toUpperCase(),
-      path: e.path,
-      params: e.parameters.map((p) => ({ name: p.name, in: p.in })),
-      hasBody: Boolean(e.requestBodySchema),
-    };
-  
-    const description =
-      [e.summary, e.description].filter(Boolean).join(". ") ||
-      `${route.method} ${route.path}`;
-  
-    return `server.registerTool(
-    ${JSON.stringify(toolName(e))},
-    {
-      title: ${JSON.stringify(e.summary ?? e.operationId)},
-      description: ${JSON.stringify(description)},
-      inputSchema: { ${fields.join(", ")} },
-    },
-    async (args) => callApi(${JSON.stringify(route)}, args as Record<string, unknown>)
-  );`;
+  if (e.requestBodySchema) {
+    fields.push(`"body": ${bodyZod(e)}`);
   }
-  const PRELUDE = `import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+
+  const route = {
+    method: e.method.toUpperCase(),
+    path: e.path,
+    params: e.parameters.map((p) => ({ name: p.name, in: p.in })),
+    hasBody: Boolean(e.requestBodySchema),
+    contentType:
+      e.requestBodyContentType === "*/*"
+        ? "application/json"
+        : e.requestBodyContentType,
+  };
+
+  const description =
+    [e.summary, e.description].filter(Boolean).join(". ") ||
+    `${route.method} ${route.path}`;
+
+  return `server.registerTool(
+  ${JSON.stringify(toolName(e))},
+  {
+    title: ${JSON.stringify(e.summary ?? e.operationId)},
+    description: ${JSON.stringify(description)},
+    inputSchema: { ${fields.join(", ")} },
+  },
+  async (args) => callApi(${JSON.stringify(route)}, args as Record<string, unknown>)
+);`;
+}
+
+// NOTE: this block is the text of the generated file. Keep it free of
+// backticks and ${...}, which would be interpolated here.
+const PRELUDE = `import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
 
@@ -85,6 +110,7 @@ interface Route {
   path: string;
   params: { name: string; in: string }[];
   hasBody: boolean;
+  contentType?: string;
 }
 
 async function callApi(route: Route, args: Record<string, unknown>) {
@@ -109,8 +135,9 @@ async function callApi(route: Route, args: Record<string, unknown>) {
   const url = BASE_URL + path + (qs ? "?" + qs : "");
   const init: RequestInit = { method: route.method, headers };
   if (route.hasBody && args.body !== undefined) {
-    headers["Content-Type"] = "application/json";
-    init.body = JSON.stringify(args.body);
+    const ct = route.contentType ?? "application/json";
+    headers["Content-Type"] = ct;
+    init.body = ct.includes("json") ? JSON.stringify(args.body) : String(args.body);
   }
 
   try {

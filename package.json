@@ -10,7 +10,8 @@
     "pokemon:inspect": "npx @modelcontextprotocol/inspector tsx examples/pokemon-server.ts",
     "parse": "tsx src/print-endpoints.ts",
     "generate": "tsx src/generate.ts",
-    "test:server": "tsx src/test-server.ts"
+    "test:server": "tsx src/test-server.ts",
+    "fetch:specs": "tsx src/fetch-specs.ts"
   },
   "repository": {
     "type": "git",
@@ -27,6 +28,7 @@
   "dependencies": {
     "@apidevtools/swagger-parser": "^13.1.0",
     "@modelcontextprotocol/sdk": "^1.32.2",
+    "yaml": "^2.9.1",
     "zod": "^4.6.7"
   },
   "devDependencies": {

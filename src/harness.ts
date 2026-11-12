@@ -3,6 +3,7 @@ import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
 import { sampleFromSchema } from "./sample.js";
+import { parse } from "yaml";
 
 export interface ToolResult {
   tool: string;
@@ -19,17 +20,30 @@ export interface TestReport {
 }
 
 const PORT = 4010;
-
+// Prism can't generate responses for "*/*" content types, so for the
+// mock we treat them as JSON.
+function normalizeContentTypes(node: any) {
+    if (!node || typeof node !== "object") return;
+    const content = node.content;
+    if (content && typeof content === "object" && content["*/*"]) {
+      if (!content["application/json"]) {
+        content["application/json"] = content["*/*"];
+      }
+      delete content["*/*"];
+    }
+    for (const value of Object.values(node)) normalizeContentTypes(value);
+  }
 // Writes a copy of the spec with all security requirements removed,
 // so the mock accepts requests without credentials.
 function prepareMockSpec(specSource: string): string {
-  const spec = JSON.parse(readFileSync(specSource, "utf8"));
+const spec = parse(readFileSync(specSource, "utf8")); // handles YAML and JSON
   delete spec.security;
   for (const pathItem of Object.values<any>(spec.paths ?? {})) {
     for (const op of Object.values<any>(pathItem)) {
       if (op && typeof op === "object") delete op.security;
     }
   }
+  normalizeContentTypes(spec);
   mkdirSync("tmp", { recursive: true });
   const out = "tmp/mock-spec.json";
   writeFileSync(out, JSON.stringify(spec));

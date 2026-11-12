@@ -1,5 +1,5 @@
 export function sampleFromSchema(schema: any, depth = 0): unknown {
-    if (!schema || depth > 5) return "example";
+    if (!schema || depth > 12) return "example";
     if (Array.isArray(schema.enum) && schema.enum.length > 0) return schema.enum[0];
     if (Array.isArray(schema.anyOf) && schema.anyOf.length > 0) {
       return sampleFromSchema(schema.anyOf[0], depth + 1);

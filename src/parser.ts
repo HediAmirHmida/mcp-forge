@@ -15,6 +15,7 @@ export interface Endpoint {
   summary?: string;
   description?: string;
   parameters: Param[];
+  requestBodyContentType?: string;
   requestBodySchema?: any;
 }
 
@@ -47,6 +48,13 @@ export async function parseSpec(source: string): Promise<ParsedSpec> {
         schema: p.schema ?? {},
       }));
 
+      // Prefer a JSON body; otherwise take whatever content type is declared
+      const bodyContent = op.requestBody?.content ?? {};
+      const bodyType =
+        "application/json" in bodyContent
+          ? "application/json"
+          : Object.keys(bodyContent)[0];
+
       endpoints.push({
         operationId:
           op.operationId ??
@@ -56,7 +64,10 @@ export async function parseSpec(source: string): Promise<ParsedSpec> {
         summary: op.summary,
         description: op.description,
         parameters,
-        requestBodySchema: op.requestBody?.content?.["application/json"]?.schema,
+        requestBodyContentType: bodyType,
+        requestBodySchema: bodyType
+          ? bodyContent[bodyType].schema ?? {}
+          : undefined,
       });
     }
   }
