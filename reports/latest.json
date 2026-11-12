@@ -1,186 +1,90 @@
 {
-  "server": "generated/hubapi/server.ts",
-  "total": 16,
-  "passed": 16,
+  "server": "generated/petstore-planned/server.ts",
+  "total": 12,
+  "passed": 12,
   "results": [
     {
-      "tool": "post-_automation_v4_actions_callbacks_complete_completeBatch",
+      "tool": "add_pet",
       "args": {
         "body": {
-          "inputs": [
-            {
-              "callbackId": "example",
-              "outputFields": {}
-            }
+          "name": "example",
+          "photoUrls": [
+            "example"
           ]
         }
       },
       "ok": true
     },
     {
-      "tool": "post-_automation_v4_actions_callbacks__callbackId__complete_complete",
+      "tool": "find_pets_by_status",
       "args": {
-        "callbackId": "example",
-        "body": {
-          "outputFields": {}
-        }
+        "status": "available"
       },
       "ok": true
     },
     {
-      "tool": "get-_automation_v4_actions__appId__getPage",
+      "tool": "get_pet_by_id",
       "args": {
-        "appId": 1
+        "petId": 1
       },
       "ok": true
     },
     {
-      "tool": "post-_automation_v4_actions__appId__create",
+      "tool": "delete_pet",
       "args": {
-        "appId": 1,
-        "body": {
-          "actionUrl": "example",
-          "functions": [
-            {
-              "functionSource": "example",
-              "functionType": "PRE_ACTION_EXECUTION"
-            }
-          ],
-          "inputFields": [
-            {
-              "isRequired": true,
-              "typeDefinition": {
-                "name": "example",
-                "options": [
-                  {
-                    "description": "example",
-                    "displayOrder": 1,
-                    "doubleData": 1,
-                    "hidden": true,
-                    "label": "example",
-                    "readOnly": true,
-                    "value": "example"
-                  }
-                ],
-                "type": "string"
-              }
-            }
-          ],
-          "labels": {},
-          "objectTypes": [
-            "example"
-          ],
-          "published": true
-        }
+        "petId": 1
       },
       "ok": true
     },
     {
-      "tool": "get-_automation_v4_actions__appId___definitionId__getById",
-      "args": {
-        "definitionId": "example",
-        "appId": 1
-      },
+      "tool": "get_inventory",
+      "args": {},
       "ok": true
     },
     {
-      "tool": "patch-_automation_v4_actions__appId___definitionId__update",
+      "tool": "place_order",
       "args": {
-        "definitionId": "example",
-        "appId": 1,
         "body": {}
       },
       "ok": true
     },
     {
-      "tool": "delete-_automation_v4_actions__appId___definitionId__archive",
+      "tool": "get_order_by_id",
       "args": {
-        "definitionId": "example",
-        "appId": 1
+        "orderId": 1
       },
       "ok": true
     },
     {
-      "tool": "get-_automation_v4_actions__appId___definitionId__functions_getPage",
+      "tool": "delete_order",
       "args": {
-        "definitionId": "example",
-        "appId": 1
+        "orderId": 1
       },
       "ok": true
     },
     {
-      "tool": "get-_automation_v4_actions__appId___definitionId__functions__functionType__getByFunctionType",
+      "tool": "create_user",
       "args": {
-        "definitionId": "example",
-        "functionType": "PRE_ACTION_EXECUTION",
-        "appId": 1
+        "body": {}
       },
       "ok": true
     },
     {
-      "tool": "put-_automation_v4_actions__appId___definitionId__functions__functionType__createOrReplaceByFunctionType",
+      "tool": "login_user",
+      "args": {},
+      "ok": true
+    },
+    {
+      "tool": "get_user_by_name",
       "args": {
-        "definitionId": "example",
-        "functionType": "PRE_ACTION_EXECUTION",
-        "appId": 1,
-        "body": "example"
+        "username": "example"
       },
       "ok": true
     },
     {
-      "tool": "delete-_automation_v4_actions__appId___definitionId__functions__functionType__archiveByFunctionType",
+      "tool": "delete_user",
       "args": {
-        "definitionId": "example",
-        "functionType": "PRE_ACTION_EXECUTION",
-        "appId": 1
-      },
-      "ok": true
-    },
-    {
-      "tool": "get-_automation_v4_actions__appId___definitionId__functions__functionType___functionId__getById",
-      "args": {
-        "definitionId": "example",
-        "functionType": "PRE_ACTION_EXECUTION",
-        "functionId": "example",
-        "appId": 1
-      },
-      "ok": true
-    },
-    {
-      "tool": "put-_automation_v4_actions__appId___definitionId__functions__functionType___functionId__createOrReplace",
-      "args": {
-        "definitionId": "example",
-        "functionType": "PRE_ACTION_EXECUTION",
-        "functionId": "example",
-        "appId": 1,
-        "body": "example"
-      },
-      "ok": true
-    },
-    {
-      "tool": "delete-_automation_v4_actions__appId___definitionId__functions__functionType___functionId__archive",
-      "args": {
-        "definitionId": "example",
-        "functionType": "PRE_ACTION_EXECUTION",
-        "functionId": "example",
-        "appId": 1
-      },
-      "ok": true
-    },
-    {
-      "tool": "get-_automation_v4_actions__appId___definitionId__revisions_getPage",
-      "args": {
-        "definitionId": "example",
-        "appId": 1
-      },
-      "ok": true
-    },
-    {
-      "tool": "get-_automation_v4_actions__appId___definitionId__revisions__revisionId__getById",
-      "args": {
-        "definitionId": "example",
-        "revisionId": "example",
-        "appId": 1
+        "username": "example"
       },
       "ok": true
     }

@@ -1,0 +1,65 @@
+{
+  "tools": [
+    {
+      "operationId": "addPet",
+      "name": "add_pet",
+      "description": "Add a new pet to the store with a request body. Use this when the user wants to list a brand new pet for sale."
+    },
+    {
+      "operationId": "findPetsByStatus",
+      "name": "find_pets_by_status",
+      "description": "Finds pets by their status value such as available, pending, or sold. Use this when searching for pets using their availability state."
+    },
+    {
+      "operationId": "getPetById",
+      "name": "get_pet_by_id",
+      "description": "Finds a single pet by its unique integer ID. Use this when you need detailed information for a specific pet."
+    },
+    {
+      "operationId": "deletePet",
+      "name": "delete_pet",
+      "description": "Deletes an existing pet by ID. Use this when a pet needs to be removed from the store inventory permanently."
+    },
+    {
+      "operationId": "getInventory",
+      "name": "get_inventory",
+      "description": "Returns pet inventories broken down by status. Use this to get a high-level summary of store stock levels."
+    },
+    {
+      "operationId": "placeOrder",
+      "name": "place_order",
+      "description": "Place a new purchase order for a pet. Use this when a user wants to buy a pet and complete an order."
+    },
+    {
+      "operationId": "getOrderById",
+      "name": "get_order_by_id",
+      "description": "Find a purchase order by its unique ID. Use this to check the status or details of an existing pet order."
+    },
+    {
+      "operationId": "deleteOrder",
+      "name": "delete_order",
+      "description": "Delete a purchase order by its ID. Use this when an existing order needs to be cancelled and removed."
+    },
+    {
+      "operationId": "createUser",
+      "name": "create_user",
+      "description": "Create a new user account in the system. Use this when registering a single new user profile."
+    },
+    {
+      "operationId": "loginUser",
+      "name": "login_user",
+      "description": "Logs a user into the system using username and password credentials. Use this to authenticate a user session."
+    },
+    {
+      "operationId": "getUserByName",
+      "name": "get_user_by_name",
+      "description": "Retrieve user details by their username. Use this when looking up specific user profile information."
+    },
+    {
+      "operationId": "deleteUser",
+      "name": "delete_user",
+      "description": "Delete a user account by username. Use this to completely remove a user from the system."
+    }
+  ],
+  "totalEndpoints": 19
+}

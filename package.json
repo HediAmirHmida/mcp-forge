@@ -11,7 +11,9 @@
     "parse": "tsx src/print-endpoints.ts",
     "generate": "tsx src/generate.ts",
     "test:server": "tsx src/test-server.ts",
-    "fetch:specs": "tsx src/fetch-specs.ts"
+    "fetch:specs": "tsx src/fetch-specs.ts",
+    "llm:hello": "tsx examples/llm-hello.ts",
+    "llm:json": "tsx examples/llm-json.ts"
   },
   "repository": {
     "type": "git",
@@ -27,7 +29,9 @@
   "homepage": "https://github.com/HediAmirHmida/mcp-forge#readme",
   "dependencies": {
     "@apidevtools/swagger-parser": "^13.1.0",
+    "@google/genai": "^3.2.0",
     "@modelcontextprotocol/sdk": "^1.32.2",
+    "dotenv": "^18.0.10",
     "yaml": "^2.9.1",
     "zod": "^4.6.7"
   },

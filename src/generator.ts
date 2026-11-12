@@ -1,4 +1,5 @@
 import type { Endpoint, ParsedSpec } from "./parser.js";
+import type { ToolPlanItem } from "./planner.js";
 
 // Converts a JSON Schema object into the *source code* of a Zod schema.
 // `seen` holds the schemas we are currently inside, so only a real cycle
@@ -60,7 +61,9 @@ function bodyZod(e: Endpoint): string {
   return e.requestBodySchema?.type ? toZod(e.requestBodySchema) : "z.string()";
 }
 
-function generateTool(e: Endpoint): string {
+// `plan` is optional: when present, its name and description (written by
+// the LLM planner) replace the ones copied from the spec.
+function generateTool(e: Endpoint, plan?: ToolPlanItem): string {
   const fields: string[] = [];
 
   for (const p of e.parameters) {
@@ -85,11 +88,12 @@ function generateTool(e: Endpoint): string {
   };
 
   const description =
-    [e.summary, e.description].filter(Boolean).join(". ") ||
-    `${route.method} ${route.path}`;
+    plan?.description ??
+    ([e.summary, e.description].filter(Boolean).join(". ") ||
+      `${route.method} ${route.path}`);
 
   return `server.registerTool(
-  ${JSON.stringify(toolName(e))},
+  ${JSON.stringify(plan?.name ?? toolName(e))},
   {
     title: ${JSON.stringify(e.summary ?? e.operationId)},
     description: ${JSON.stringify(description)},
@@ -159,7 +163,10 @@ async function callApi(route: Route, args: Record<string, unknown>) {
 }
 `;
 
-export function generateServer(spec: ParsedSpec): string {
+export function generateServer(
+  spec: ParsedSpec,
+  plan?: ToolPlanItem[]
+): string {
   const slug =
     spec.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") ||
     "api";
@@ -169,7 +176,18 @@ export function generateServer(spec: ParsedSpec): string {
     `\nconst BASE_URL = process.env.API_BASE_URL ?? ${JSON.stringify(spec.baseUrl)};\n` +
     `const server = new McpServer({ name: ${JSON.stringify(slug)}, version: "1.0.0" });\n\n`;
 
-  const tools = spec.endpoints.map(generateTool).join("\n\n");
+  // With a plan: only the selected endpoints, with the planner's names and
+  // descriptions. Without one: every endpoint, as before.
+  // (The arrow function matters: map(generateTool) would pass the array
+  // index as the `plan` argument.)
+  const tools = (
+    plan
+      ? plan.flatMap((p) => {
+          const e = spec.endpoints.find((x) => x.operationId === p.operationId);
+          return e ? [generateTool(e, p)] : [];
+        })
+      : spec.endpoints.map((e) => generateTool(e))
+  ).join("\n\n");
 
   return header + tools + "\n\nawait server.connect(new StdioServerTransport());\n";
 }
