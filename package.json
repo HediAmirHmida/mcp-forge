@@ -8,7 +8,8 @@
     "pokemon:server": "tsx examples/pokemon-server.ts",
     "pokemon:client": "tsx examples/pokemon-client-test.ts",
     "pokemon:inspect": "npx @modelcontextprotocol/inspector tsx examples/pokemon-server.ts",
-    "parse": "tsx src/print-endpoints.ts"
+    "parse": "tsx src/print-endpoints.ts",
+    "generate": "tsx src/generate.ts"
   },
   "repository": {
     "type": "git",
