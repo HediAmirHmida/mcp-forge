@@ -14,7 +14,8 @@
     "fetch:specs": "tsx src/fetch-specs.ts",
     "llm:hello": "tsx examples/llm-hello.ts",
     "llm:json": "tsx examples/llm-json.ts",
-    "repair": "tsx src/repair-cli.ts"
+    "repair": "tsx src/repair-cli.ts",
+    "eval": "tsx src/eval.ts"
   },
   "repository": {
     "type": "git",

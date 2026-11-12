@@ -31,7 +31,7 @@ export interface RepairResult {
 const MAX_PATCHES_PER_ATTEMPT = 5;
 
 // Errors caused by the Prism mock itself, not by the generated tool.
-function isMockArtifact(r: ToolResult): boolean {
+ export function isMockArtifact(r: ToolResult): boolean {
   const e = r.error ?? "";
   return (
     (/HTTP 5\d\d/.test(e) && e.includes("stoplight.io/prism")) ||
@@ -40,7 +40,7 @@ function isMockArtifact(r: ToolResult): boolean {
   );
 }
 
-function split(report: TestReport) {
+export function split(report: TestReport) {
   const failed = report.results.filter((r) => !r.ok);
   return {
     real: failed.filter((r) => !isMockArtifact(r)),
