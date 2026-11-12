@@ -1,0 +1,33 @@
+{
+  "initialPassed": 11,
+  "finalPassed": 12,
+  "total": 12,
+  "remainingRealFailures": [],
+  "mockArtifacts": [],
+  "attempts": [
+    {
+      "attempt": 1,
+      "passed": 11,
+      "total": 12,
+      "realFailures": [
+        "get_pet_by_id"
+      ],
+      "mockArtifacts": [],
+      "patched": [
+        "get_pet_by_id"
+      ],
+      "accepted": true
+    },
+    {
+      "attempt": 2,
+      "passed": 12,
+      "total": 12,
+      "realFailures": [],
+      "mockArtifacts": [],
+      "patched": []
+    }
+  ],
+  "llmCalls": 1,
+  "inputTokens": 570,
+  "outputTokens": 192
+}

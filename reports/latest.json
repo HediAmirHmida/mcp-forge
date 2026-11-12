@@ -1,7 +1,7 @@
 {
-  "server": "generated/petstore-planned/server.ts",
+  "server": "generated/petstore-broken/server.ts",
   "total": 12,
-  "passed": 12,
+  "passed": 11,
   "results": [
     {
       "tool": "add_pet",
@@ -25,9 +25,10 @@
     {
       "tool": "get_pet_by_id",
       "args": {
-        "petId": 1
+        "petId": "example"
       },
-      "ok": true
+      "ok": false,
+      "error": "HTTP 400: "
     },
     {
       "tool": "delete_pet",

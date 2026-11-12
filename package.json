@@ -13,7 +13,8 @@
     "test:server": "tsx src/test-server.ts",
     "fetch:specs": "tsx src/fetch-specs.ts",
     "llm:hello": "tsx examples/llm-hello.ts",
-    "llm:json": "tsx examples/llm-json.ts"
+    "llm:json": "tsx examples/llm-json.ts",
+    "repair": "tsx src/repair-cli.ts"
   },
   "repository": {
     "type": "git",
