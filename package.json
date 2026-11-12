@@ -9,7 +9,8 @@
     "pokemon:client": "tsx examples/pokemon-client-test.ts",
     "pokemon:inspect": "npx @modelcontextprotocol/inspector tsx examples/pokemon-server.ts",
     "parse": "tsx src/print-endpoints.ts",
-    "generate": "tsx src/generate.ts"
+    "generate": "tsx src/generate.ts",
+    "test:server": "tsx src/test-server.ts"
   },
   "repository": {
     "type": "git",
@@ -29,6 +30,7 @@
     "zod": "^4.6.7"
   },
   "devDependencies": {
+    "@stoplight/prism-cli": "^5.14.2",
     "@types/node": "^26.6.6",
     "tsx": "^4.23.15",
     "typescript": "^7.0.2"

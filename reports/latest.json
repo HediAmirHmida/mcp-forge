@@ -1,0 +1,149 @@
+{
+  "server": "generated/petstore/server.ts",
+  "total": 19,
+  "passed": 19,
+  "results": [
+    {
+      "tool": "addPet",
+      "args": {
+        "body": {
+          "name": "example",
+          "photoUrls": [
+            "example"
+          ]
+        }
+      },
+      "ok": true
+    },
+    {
+      "tool": "updatePet",
+      "args": {
+        "body": {
+          "name": "example",
+          "photoUrls": [
+            "example"
+          ]
+        }
+      },
+      "ok": true
+    },
+    {
+      "tool": "findPetsByStatus",
+      "args": {
+        "status": "available"
+      },
+      "ok": true
+    },
+    {
+      "tool": "findPetsByTags",
+      "args": {
+        "tags": [
+          "example"
+        ]
+      },
+      "ok": true
+    },
+    {
+      "tool": "getPetById",
+      "args": {
+        "petId": 1
+      },
+      "ok": true
+    },
+    {
+      "tool": "updatePetWithForm",
+      "args": {
+        "petId": 1
+      },
+      "ok": true
+    },
+    {
+      "tool": "deletePet",
+      "args": {
+        "petId": 1
+      },
+      "ok": true
+    },
+    {
+      "tool": "uploadFile",
+      "args": {
+        "petId": 1
+      },
+      "ok": true
+    },
+    {
+      "tool": "getInventory",
+      "args": {},
+      "ok": true
+    },
+    {
+      "tool": "placeOrder",
+      "args": {
+        "body": {}
+      },
+      "ok": true
+    },
+    {
+      "tool": "getOrderById",
+      "args": {
+        "orderId": 1
+      },
+      "ok": true
+    },
+    {
+      "tool": "deleteOrder",
+      "args": {
+        "orderId": 1
+      },
+      "ok": true
+    },
+    {
+      "tool": "createUser",
+      "args": {
+        "body": {}
+      },
+      "ok": true
+    },
+    {
+      "tool": "createUsersWithListInput",
+      "args": {
+        "body": [
+          {}
+        ]
+      },
+      "ok": true
+    },
+    {
+      "tool": "loginUser",
+      "args": {},
+      "ok": true
+    },
+    {
+      "tool": "logoutUser",
+      "args": {},
+      "ok": true
+    },
+    {
+      "tool": "getUserByName",
+      "args": {
+        "username": "example"
+      },
+      "ok": true
+    },
+    {
+      "tool": "updateUser",
+      "args": {
+        "username": "example",
+        "body": {}
+      },
+      "ok": true
+    },
+    {
+      "tool": "deleteUser",
+      "args": {
+        "username": "example"
+      },
+      "ok": true
+    }
+  ]
+}
